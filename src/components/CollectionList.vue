@@ -5,13 +5,8 @@
 </template>
 
 <script>
-  import { getTestData } from '@/services/shopify'
-
   export default {
-    name: 'CollectionList',
-    created () {
-      getTestData().then(response => console.log(response))
-    }
+    name: 'CollectionList'
   }
 </script>
 

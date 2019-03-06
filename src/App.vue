@@ -8,6 +8,18 @@
   </div>
 </template>
 
+<script>
+  export default {
+    name: 'App',
+    created () {
+      this.$store.dispatch('shop/populate')
+      // this.$store.dispatch('collections/populate')
+      // this.$store.dispatch('products/populate')
+    }
+  }
+</script>
+
+
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
