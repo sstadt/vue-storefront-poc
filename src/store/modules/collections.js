@@ -1,19 +1,22 @@
 
+import { getCollections } from '@/services/shopify'
+
 const state = {
   all: []
 }
 
 const mutations = {
-  ADD_COLLECTION () {},
-  UPDATE_COLLECTION () {},
-  REMOVE_COLLECTION () {}
+  SET_COLLECTIONS (state, collections) {
+    state.all = collections
+  }
 }
 
 const actions = {
-  populate () {},
-  addCollection () {},
-  updateCollection () {},
-  removeCollection () {}
+  populate ({ commit }) {
+    getCollections().then((collections) => {
+      commit('SET_COLLECTIONS', collections)
+    })
+  }
 }
 
 export default { namespaced: true, state, mutations, actions }

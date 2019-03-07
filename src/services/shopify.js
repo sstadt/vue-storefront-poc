@@ -35,7 +35,13 @@ export const getCollections = () => {
             }
           }
         }
-      }`).then(resolve)
+      }`).then(response => {
+        try {
+          resolve(response.data.shop.collections.edges.map(collection => collection.node))
+        } catch (error) {
+          reject('Invalid response')
+        }
+      })
   })
 }
 
@@ -50,6 +56,13 @@ export const getProducts = () => {
               node {
                 id
                 title
+                collections(first:250) {
+                  edges {
+                    node {
+                      handle
+                    }
+                  }
+                }
                 options {
                   name
                   values
@@ -88,6 +101,12 @@ export const getProducts = () => {
             }
           }
         }
-      }`).then(resolve)
+      }`).then(response => {
+        try {
+          resolve(response.data.shop.products.edges.map(product => product.node))
+        } catch (error) {
+          reject('Invalid response')
+        }
+      })
   })
 }

@@ -4,13 +4,12 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import CollectionList from '@/components/CollectionList.vue'
+  import CollectionList from '@/components/CollectionList.vue'
 
-export default {
-  name: 'home',
-  components: {
-    CollectionList
+  export default {
+    name: 'HomePage',
+    components: {
+      CollectionList
+    }
   }
-}
 </script>
