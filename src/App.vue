@@ -2,17 +2,19 @@
   #app
     #nav
       router-link(to="/") Home
-      router-link(to="/about") About
     .wrapper
       .content
         router-view
       .sidebar
-        //- sidecart
+        sidecart
 </template>
 
 <script>
+  import Sidecart from '@/components/Sidecart.vue'
+
   export default {
     name: 'App',
+    components: { Sidecart },
     created () {
       this.$store.dispatch('shop/populate')
       this.$store.dispatch('collections/populate')

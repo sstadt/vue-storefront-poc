@@ -8,6 +8,39 @@ const client = GraphQlClient({
   }
 })
 
+const checkoutData = `
+  userErrors {
+    message
+    field
+  }
+  checkout {
+    id
+    webUrl
+    subtotalPrice
+    totalTax
+    totalPrice
+    lineItems (first:250) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        node {
+          id
+          title
+          variant {
+            title
+            image {
+              src
+            }
+            price
+          }
+          quantity
+        }
+      }
+    }
+  }`
+
 export const getShopData = () => {
   return new Promise((resolve, reject) => {
     client.query(`
@@ -56,6 +89,7 @@ export const getProducts = () => {
               node {
                 id
                 title
+                handle
                 collections(first:250) {
                   edges {
                     node {
@@ -74,7 +108,9 @@ export const getProducts = () => {
                   }
                   edges {
                     node {
+                      id
                       title
+                      price
                       selectedOptions {
                         name
                         value
@@ -108,5 +144,57 @@ export const getProducts = () => {
           reject('Invalid response')
         }
       })
+  })
+}
+
+export const createCheckout = () => {
+  return new Promise((resolve, reject) => {
+    client.query(`
+      mutation {
+        checkoutCreate(input: {}) {
+          ${checkoutData}
+        }
+      }`).then(response => resolve(response.data.checkoutCreate.checkout))
+  })
+}
+
+export const addCartItem = (checkoutId, { id, quantity }) => {
+  let lineItems = `[{ variantId: "${id}", quantity: ${quantity} }]`
+
+  return new Promise((resolve, reject) => {
+    client.query(`
+      mutation {
+        checkoutLineItemsAdd(checkoutId: "${checkoutId}", lineItems: ${lineItems}) {
+          ${checkoutData}
+        }
+      }`).then(response => resolve(response.data.checkoutLineItemsAdd.checkout))
+  })
+}
+
+export const updateCartItem = (checkoutId, { id, quantity }) => {
+  let lineItems = `[{ variantId: "${id}", quantity: ${quantity} }]`
+  console.log('update cart item')
+
+  return new Promise((resolve, reject) => {
+    client.query(`
+      mutation {
+        checkoutLineItemsUpdate(checkoutId: "${checkoutId}", lineItems: ${lineItems}) {
+          ${checkoutData}
+        }
+      }`).then(response => {
+        console.log(response)
+        resolve(response.data.checkoutLineItemsUpdate.checkout)
+      })
+  })
+}
+
+export const removeCartItem = (checkoutId, id) => {
+  return new Promise((resolve, reject) => {
+    client.query(`
+      mutation {
+        checkoutLineItemsRemove(checkoutId: "${checkoutId}", lineItemIds: ["${id}"]) {
+          ${checkoutData}
+        }
+      }`).then(response => resolve(response.data.checkoutLineItemsRemove.checkout))
   })
 }

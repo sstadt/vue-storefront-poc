@@ -1,17 +1,17 @@
 
 <template lang="pug">
-  router-link(:to="url") {{ collection.title }}
+  router-link(:to="url") {{ product.title }}
 </template>
 
 <script>
   export default {
-    name: 'CollectionLink',
+    name: 'ProductLink',
     props: {
-      collection: Object
+      product: Object
     },
     computed: {
       url () {
-        return `/collection/${this.collection.handle}`
+        return `/product/${this.product.handle}`
       }
     }
   }

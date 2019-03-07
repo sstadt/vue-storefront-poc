@@ -1,27 +1,38 @@
 
+import {
+  createCheckout, 
+  addCartItem,
+  updateCartItem, 
+  removeCartItem
+} from '@/services/shopify'
+
 const state = {
-  items: []
+  checkout: {}
 }
 
 const mutations = {
-  ADD_ITEM (state, item) {
-    state.items.push(item)
-  },
-  UPDATE_ITEM (state, updatedItem) {
-    let index = state.items.find(item => item.id === id)
-    state.items.splice(index, 1, updatedItem)
-  },
-  REMOVE_ITEM (state, { id }) {
-    let index = state.items.find(item => item.id === id)
-    state.items.splice(index, 1)
+  SET_CHECKOUT (state, checkout) {
+    state.checkout = checkout
   }
 }
 
 const actions = {
-  populate () {},
-  addItem () {},
-  updateItem () {},
-  removeItem () {}
+  init ({ commit }) {
+    createCheckout()
+      .then(checkout => commit('SET_CHECKOUT', checkout))
+  },
+  addItem ({ state, commit }, { id, quantity }) {
+    addCartItem(state.checkout.id, { id, quantity })
+      .then(checkout => commit('SET_CHECKOUT', checkout))
+  },
+  updateItem ({ state, commit }, { id, quantity }) {
+    updateCartItem(state.checkout.id, { id, quantity })
+      .then(checkout => commit('SET_CHECKOUT', checkout))
+  },
+  removeItem ({ state, commit }, id) {
+    removeCartItem(state.checkout.id, id)
+      .then(checkout => commit('SET_CHECKOUT', checkout))
+  }
 }
 
 export default { namespaced: true, state, mutations, actions }
