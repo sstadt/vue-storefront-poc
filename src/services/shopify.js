@@ -72,14 +72,13 @@ export const getCollections = () => {
         try {
           resolve(response.data.shop.collections.edges.map(collection => collection.node))
         } catch (error) {
-          reject('Invalid response')
+          reject('Unhandled response')
         }
       })
   })
 }
 
 export const getProducts = () => {
-
   return new Promise((resolve, reject) => {
     client.query(`
       query {
@@ -172,8 +171,7 @@ export const addCartItem = (checkoutId, { id, quantity }) => {
 }
 
 export const updateCartItem = (checkoutId, { id, quantity }) => {
-  let lineItems = `[{ variantId: "${id}", quantity: ${quantity} }]`
-  console.log('update cart item')
+  let lineItems = `[{ id: "${id}", quantity: ${quantity} }]`
 
   return new Promise((resolve, reject) => {
     client.query(`
@@ -181,10 +179,7 @@ export const updateCartItem = (checkoutId, { id, quantity }) => {
         checkoutLineItemsUpdate(checkoutId: "${checkoutId}", lineItems: ${lineItems}) {
           ${checkoutData}
         }
-      }`).then(response => {
-        console.log(response)
-        resolve(response.data.checkoutLineItemsUpdate.checkout)
-      })
+      }`).then(response => resolve(response.data.checkoutLineItemsUpdate.checkout))
   })
 }
 

@@ -1,15 +1,12 @@
+
 <template lang="pug">
   .home-page
-    collection-list
+    h1 Shopify Storefront
+    p Select a collection to view products that can be added to the cart
 </template>
 
 <script>
-  import CollectionList from '@/components/CollectionList.vue'
-
   export default {
-    name: 'HomePage',
-    components: {
-      CollectionList
-    }
+    name: 'HomePage'
   }
 </script>

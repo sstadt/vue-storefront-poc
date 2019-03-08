@@ -7,10 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "babel-plugin-graphql-js-client-transform": "^1.1.1",
     "graphql-client": "^2.0.1",
-    "graphql-js-client": "^0.10.0",
-    "graphql-request": "^1.8.2",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "register-service-worker": "^1.5.2",

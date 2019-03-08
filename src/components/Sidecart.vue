@@ -3,18 +3,19 @@
   .sidecart(v-if="checkout.id")
     h2 Cart
     p(v-if="checkout.lineItems.edges.length < 1") You have no items in your cart
-    .sidecart-items(v-else)
-      sidecart-line-item(v-for="item in checkout.lineItems.edges", :line-item="item.node", :key="item.id")
-    p.sidecart-total
-      span Subtotal
-      span ${{ checkout.subtotalPrice }}
-    p.sidecart-total
-      span Tax
-      span ${{ checkout.totalTax }}
-    p.sidecart-total.sidecart-total--last
-      span Total
-      span ${{ checkout.totalPrice }}
-    button(@click="startCheckout") Checkout
+    div(v-else)
+      .sidecart-items
+        sidecart-line-item(v-for="item in checkout.lineItems.edges", :line-item="item.node", :key="item.id")
+      p.sidecart-total
+        span Subtotal
+        span ${{ checkout.subtotalPrice }}
+      p.sidecart-total
+        span Tax
+        span ${{ checkout.totalTax }}
+      p.sidecart-total.sidecart-total--last
+        span Total
+        span ${{ checkout.totalPrice }}
+      a(:href="checkout.webUrl") Checkout
 </template>
 
 <script>
@@ -32,11 +33,6 @@
     },
     created () {
       this.$store.dispatch('cart/init')
-    },
-    methods: {
-      startCheckout () {
-        console.log('Checkout')
-      }
     }
   }
 </script>

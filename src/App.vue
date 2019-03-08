@@ -2,6 +2,7 @@
   #app
     #nav
       router-link(to="/") Home
+      collection-link(v-for="collection in collections", :key="collection.id", :collection="collection")
     .wrapper
       .content
         router-view
@@ -10,15 +11,23 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   import Sidecart from '@/components/Sidecart.vue'
+  import CollectionLink from '@/components/CollectionLink.vue'
 
   export default {
     name: 'App',
-    components: { Sidecart },
+    components: { Sidecart, CollectionLink },
     created () {
       this.$store.dispatch('shop/populate')
       this.$store.dispatch('collections/populate')
       this.$store.dispatch('products/populate')
+    },
+    computed: {
+      ...mapState({
+        collections: state => state.collections.all
+      })
     }
   }
 </script>

@@ -13,7 +13,7 @@
 
 <script>
   export default {
-    name: 'ComponentName',
+    name: 'SidecartLineItem',
     props: {
       lineItem: Object
     },
@@ -24,26 +24,20 @@
     },
     methods: {
       decrement () {
-        console.log('decrement')
         if (this.lineItem.quantity > 1) {
-          let updatedItem = {
+          this.$store.dispatch('cart/updateItem', {
             id: this.lineItem.id,
             quantity: this.lineItem.quantity - 1
-          }
-  
-          this.$store.dispatch('cart/updateItem', updatedItem)
+          })
         } else {
           this.$store.dispatch('cart/removeItem', this.lineItem.id)
         }
       },
       increment () {
-        console.log('increment')
-        let updatedItem = {
+        this.$store.dispatch('cart/updateItem', {
           id: this.lineItem.id,
           quantity: this.lineItem.quantity + 1
-        }
-
-        this.$store.dispatch('cart/updateItem', updatedItem)
+        })
       },
       remove () {
         this.$store.dispatch('cart/removeItem', this.lineItem.id)
